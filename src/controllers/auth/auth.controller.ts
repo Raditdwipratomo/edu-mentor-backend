@@ -49,7 +49,7 @@ export async function registerHandler(req: Request, res: Response) {
       { expiresIn: "1d" }
     );
 
-    const verifyUrl = `/auth/verify-email?token=${verifyToken}`;
+    const verifyUrl = `${getAppUrl()}/auth/verify-email?token=${verifyToken}`;
 
     await sendEmail(
       newlyCreatedUser.email,
@@ -100,7 +100,7 @@ export async function loginHandler(req: Request, res: Response) {
       });
     }
 
-    const ok = await checkPassword(password, user.email);
+    const ok = await checkPassword(password, user.passwordHash);
 
     if (!ok) {
       return res.status(400).json({
@@ -162,7 +162,7 @@ export async function verifyEmailHandler(req: Request, res: Response) {
     sub: string;
   };
 
-  const user = await User.findById(payload);
+  const user = await User.findById(payload.sub);
 
   if (!user) {
     return res.status(400).json({
