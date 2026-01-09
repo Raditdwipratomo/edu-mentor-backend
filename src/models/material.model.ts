@@ -19,6 +19,7 @@ const materialSchema = new Schema(
     },
     aiModel: String,
     aiPrompt: String,
+    userPrompt: String,
     tokenUsage: {
       type: Number,
       default: 0,

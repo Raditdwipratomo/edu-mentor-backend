@@ -13,6 +13,7 @@ const roadmapSchema = new Schema(
       required: true,
     },
     interest: String,
+    description: String,
 
     level: {
       type: String,

@@ -19,6 +19,7 @@ const chapterSchema = new Schema(
     subchapters: [{ type: mongoose.Schema.Types.ObjectId, ref: "SubChapter" }],
     description: String,
     aiPrompt: String,
+    userPrompt: String,
   },
   {
     timestamps: true,
