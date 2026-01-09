@@ -1,7 +1,8 @@
 import dotenv from "dotenv";
 import http from "http";
 import app from "./app";
-import { connectToDB } from "./config/db";
+import { connectToDB } from "./config";
+import { env } from "./config";
 
 dotenv.config();
 
@@ -9,8 +10,8 @@ async function startServer() {
   await connectToDB();
   const server = http.createServer(app);
 
-  server.listen(process.env.PORT, () => {
-    console.log(`Server is now listening on port ${process.env.PORT}`);
+  server.listen(env.PORT, () => {
+    console.log(`Server is now listening on port ${env.PORT}`);
   });
 }
 

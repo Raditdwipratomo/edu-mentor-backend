@@ -3,7 +3,8 @@ import {
   loginHandler,
   registerHandler,
   verifyEmailHandler,
-} from "../../controllers/auth/auth.controller";
+} from "../controllers/auth/auth.controller";
+
 
 const router = Router();
 

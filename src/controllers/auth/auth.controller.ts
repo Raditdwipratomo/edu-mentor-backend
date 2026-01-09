@@ -5,9 +5,10 @@ import { checkPassword, hashPassword } from "../../lib/hash";
 import jwt from "jsonwebtoken";
 import { sendEmail } from "../../lib/email";
 import { createAccessToken, createRefreshToken } from "../../lib/token";
+import { env } from "../../config";
 
 function getAppUrl() {
-  return process.env.APP_URL || `http://localhost:${process.env.PORT}`;
+  return env.APP_URL || `http://localhost:${env.PORT}`;
 }
 
 export async function registerHandler(req: Request, res: Response) {
@@ -122,7 +123,7 @@ export async function loginHandler(req: Request, res: Response) {
 
     const refreshToken = createRefreshToken(user.id, user.tokenVersion);
 
-    const isProd = process.env.NODE_ENV === "production";
+    const isProd = env.NODE_ENV === "production";
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,

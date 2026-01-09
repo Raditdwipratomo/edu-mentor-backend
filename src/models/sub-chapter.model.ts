@@ -12,6 +12,7 @@ const subChapterSchema = new Schema(
       type: String,
       required: true,
     },
+    material: [{ type: mongoose.Schema.Types.ObjectId, ref: "Material" }],
     learningObjective: String,
     aiPrompt: String,
   },

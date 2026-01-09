@@ -22,6 +22,7 @@ const roadmapSchema = new Schema(
     userPrompt: String,
     aiPrompt: String,
     aiModel: String,
+    sections: [{ type: mongoose.Schema.Types.ObjectId, ref: "Section" }],
 
     status: {
       type: String,
