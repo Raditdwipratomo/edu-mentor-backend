@@ -17,7 +17,7 @@ const sectionSchema = new Schema(
       required: true,
     },
 
-    desciption: String,
+    description: String,
     aiPrompt: String,
   },
   {

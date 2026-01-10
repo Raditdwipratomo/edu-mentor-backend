@@ -5,7 +5,7 @@ export const roadmapPrompt = (payload: {
 }) => {
   return `
 SYSTEM INSTRUCTION:
-You are a deterministic educational roadmap content generator.
+You are a deterministic educational roadmap generator.
 You must strictly follow all rules below.
 Failure to comply invalidates the response.
 
@@ -28,9 +28,9 @@ USER CONTEXT:
 ${payload.description ? `- Goal: ${payload.description}` : ""}
 
 TASK:
-Generate the CONTENT of a learning roadmap.
-The roadmap must be logically structured from basic concepts to advanced mastery,
-appropriate for the specified level.
+Generate a high-level learning roadmap structure.
+Focus ONLY on the overall learning path and major sections.
+Do NOT generate chapters or lower-level details.
 
 SCHEMA (STRICT — MUST MATCH EXACTLY):
 {
@@ -40,26 +40,18 @@ SCHEMA (STRICT — MUST MATCH EXACTLY):
     {
       "order": number,
       "title": "string",
-      "description": "string",
-      "chapters": [
-        {
-          "order": number,
-          "title": "string",
-          "description": "string"
-        }
-      ]
+      "description": "string"
     }
   ]
 }
 
 STRUCTURAL CONSTRAINTS:
 - sections.length MUST be between 3 and 5.
-- chapters.length for EACH section MUST be between 3 and 5.
 - All order fields MUST start at 1 and increase sequentially without gaps.
-- Section order MUST reflect increasing difficulty.
-- Chapter order MUST reflect increasing difficulty within the section.
-- Titles MUST be concise and descriptive.
-- Descriptions MUST be practical, clear, and non-redundant.
+- Section order MUST reflect increasing learning difficulty.
+- Titles MUST be concise, clear, and outcome-oriented.
+- Descriptions MUST explain the focus and scope of each section at a high level.
+- Do NOT include implementation details or specific tools unless fundamental.
 
 FINAL VALIDATION RULE:
 Before responding, internally verify:
