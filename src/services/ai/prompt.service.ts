@@ -1,10 +1,11 @@
+import { roadmapPrompt } from "../../prompts/roadmap";
 export class PromptService {
   static buildRoadmapPrompt(payload: {
     interest: string;
     level: string;
     description?: string;
   }) {
-    return "";
+    return roadmapPrompt(payload);
   }
 
   static regenerateRoadmapPrompt(payload: any) {
