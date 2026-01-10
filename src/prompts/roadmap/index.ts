@@ -5,7 +5,7 @@ export const roadmapPrompt = (payload: {
 }) => {
   return `
 SYSTEM INSTRUCTION:
-You are a deterministic educational roadmap generator.
+You are a deterministic educational roadmap title and description generator.
 You must strictly follow all rules below.
 Failure to comply invalidates the response.
 
@@ -28,30 +28,24 @@ USER CONTEXT:
 ${payload.description ? `- Goal: ${payload.description}` : ""}
 
 TASK:
-Generate a high-level learning roadmap structure.
-Focus ONLY on the overall learning path and major sections.
-Do NOT generate chapters or lower-level details.
+Generate a clear and compelling learning roadmap title and description.
+The roadmap must represent a complete learning journey for the given interest and level.
+The description should explain the learning scope, progression, and expected outcomes at a high level.
+Do NOT generate sections, chapters, or any structural breakdown.
 
 SCHEMA (STRICT — MUST MATCH EXACTLY):
 {
   "title": "string",
-  "description": "string",
-  "sections": [
-    {
-      "order": number,
-      "title": "string",
-      "description": "string"
-    }
-  ]
+  "description": "string"
 }
 
-STRUCTURAL CONSTRAINTS:
-- sections.length MUST be between 3 and 5.
-- All order fields MUST start at 1 and increase sequentially without gaps.
-- Section order MUST reflect increasing learning difficulty.
-- Titles MUST be concise, clear, and outcome-oriented.
-- Descriptions MUST explain the focus and scope of each section at a high level.
-- Do NOT include implementation details or specific tools unless fundamental.
+CONTENT CONSTRAINTS:
+- The title MUST be concise, professional, and outcome-oriented.
+- The title MUST NOT exceed 80 characters.
+- The description MUST be written as a single cohesive paragraph.
+- The description MUST explain what the learner will learn and how the learning progresses.
+- The description MUST NOT list steps, sections, tools, or technologies explicitly.
+- Difficulty and depth MUST align with the specified level.
 
 FINAL VALIDATION RULE:
 Before responding, internally verify:
