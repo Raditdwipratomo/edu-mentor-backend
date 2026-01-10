@@ -7,7 +7,7 @@ export enum RoadmapStatus {
 
 export interface RoadmapPayload {
   interest: string;
-  description: string;
+  userPrompt?: string;
   level: string;
 }
 

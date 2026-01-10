@@ -1,10 +1,7 @@
 import { roadmapPrompt } from "../../prompts/roadmap";
+import { RoadmapPayload } from "../../type/roadmap.type";
 export class PromptService {
-  buildRoadmapPrompt(payload: {
-    interest: string;
-    level: string;
-    description?: string;
-  }) {
+  buildRoadmapPrompt(payload: RoadmapPayload) {
     return roadmapPrompt(payload);
   }
 

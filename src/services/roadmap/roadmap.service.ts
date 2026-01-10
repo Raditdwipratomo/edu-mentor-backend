@@ -29,6 +29,7 @@ export class RoadmapService {
         interest: payload.interest,
         level: payload.level,
         status: RoadmapStatus.DRAFT,
+        userPrompt: payload.userPrompt,
       });
 
       return roadmap;
@@ -57,7 +58,7 @@ export class RoadmapService {
       const prompt = this.promptService.buildRoadmapPrompt({
         interest: roadmap.interest!,
         level: roadmap.level,
-        description: roadmap.description!,
+        userPrompt: roadmap.userPrompt!,
       });
 
       const aiResponse = await this.aiService.generate(prompt);
