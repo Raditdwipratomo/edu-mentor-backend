@@ -27,7 +27,6 @@ export class RoadmapService {
       const roadmap = await RoadmapModel.create({
         userId,
         interest: payload.interest,
-        description: payload.description,
         level: payload.level,
         status: RoadmapStatus.DRAFT,
       });
@@ -244,6 +243,7 @@ export class RoadmapService {
         aiPrompt: parsedResponse.aiPrompt,
         userPrompt: parsedResponse.userPrompt,
         aiModel: await this.aiService.getAIModelName(),
+        description: parsedResponse.description,
       },
       { session }
     );

@@ -3,10 +3,15 @@ import { AIService } from "../ai/ai.service";
 import { PromptService } from "../ai/prompt.service";
 
 export class SubchapterService {
-  async generateSubchapters(chapterId: string, payload: any) {
-    const prompt = PromptService.generateSubChapter(payload);
+  constructor(
+    private readonly promptService: PromptService,
+    private readonly aiService: AIService
+  ) {}
 
-    const aiResponse = await AIService.generate(prompt);
+  async generateSubchapters(chapterId: string, payload: any) {
+    const prompt = this.promptService.generateSubChapter(payload);
+
+    const aiResponse = await this.aiService.generate(prompt);
 
     if (!aiResponse) {
       throw new Error("AI subchapter generate failed");

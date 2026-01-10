@@ -5,16 +5,20 @@ import { Section as SectionModel } from "../../models/section.model";
 import { SubchapterService } from "../subchapter/subchapter.service";
 
 export class ChapterService {
-  constructor() {}
+  constructor(
+    private readonly promptService: PromptService,
+    private aiService: AIService,
+    private subchapterSevice: SubchapterService
+  ) {}
   async generateChapter(sectionId: string, payload: any) {
     const section = SectionModel.findById(sectionId);
 
     if (!section) {
       throw new Error("Section not found");
     }
-    const prompt = PromptService.buildChapterPrompt(payload);
+    const prompt = this.promptService.buildChapterPrompt(payload);
 
-    const aiResponse = await AIService.generate(prompt);
+    const aiResponse = await this.aiService.generate(prompt);
 
     if (!aiResponse) {
       throw new Error("Error at generate ai chapter service");
@@ -37,7 +41,7 @@ export class ChapterService {
 
     if (payload.withSubChapters) {
       for (const chapter of createdChapters) {
-        await SubchapterService(chapter._id, payload);
+        await this.subchapterSevice.generateSubchapters(chapter._id, payload);
       }
     }
 
