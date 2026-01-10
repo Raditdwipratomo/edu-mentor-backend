@@ -6,7 +6,7 @@ import { RoadmapPayload } from "./roadmap.type";
 import { SectionService } from "./section.service";
 
 export class RoadmapService {
-  static async createDraft(userId: string, payload: RoadmapPayload) {
+  async createDraft(userId: string, payload: RoadmapPayload) {
     return await RoadmapModel.create({
       userId,
       interest: payload.interest,
@@ -16,7 +16,7 @@ export class RoadmapService {
     });
   }
 
-  static async generateRoadmap(roadmapId: string) {
+  async generateRoadmap(roadmapId: string) {
     const roadmap = await RoadmapModel.findById(roadmapId);
     if (!roadmap) {
       throw new Error("Roadmap not found");

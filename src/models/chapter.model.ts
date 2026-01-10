@@ -16,7 +16,6 @@ const chapterSchema = new Schema(
       type: String,
       required: true,
     },
-    subchapters: [{ type: mongoose.Schema.Types.ObjectId, ref: "SubChapter" }],
     description: String,
     aiPrompt: String,
     userPrompt: String,

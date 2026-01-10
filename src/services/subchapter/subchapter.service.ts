@@ -1,43 +1,28 @@
 import { Subchapter as SubchapterModel } from "../../models/sub-chapter.model";
 import { AIService } from "../ai/ai.service";
 import { PromptService } from "../ai/prompt.service";
-import { Chapter as ChapterModel } from "../../models/chapter.model";
 
 export class SubchapterService {
-  static async generateSubchapter(chapterId: string, payload: any) {
+  async generateSubchapters(chapterId: string, payload: any) {
     const prompt = PromptService.generateSubChapter(payload);
-
-    if (!prompt) {
-      throw new Error("Error at initialize prompt");
-    }
 
     const aiResponse = await AIService.generate(prompt);
 
     if (!aiResponse) {
-      throw new Error("Error at generating subchapter from ai");
+      throw new Error("AI subchapter generate failed");
     }
 
-    const parsedResponse = JSON.parse(aiResponse);
+    const parsedResponse = JSON.parse(aiResponse as string);
 
-    let data: any = [];
-
-    for (const subchapter of parsedResponse.subChapters) {
-      data += await SubchapterModel.create({
+    return SubchapterModel.insertMany(
+      parsedResponse.subchapters.map((sc: any, index: number) => ({
         chapterId,
-        title: subchapter.title,
-        learningObjective: subchapter.learningObjective,
-        aiPrompt: subchapter.aiPrompt,
-        userPrompt: subchapter.userPrompt,
-      });
-    }
-
-    await ChapterModel.updateOne(
-      { _id: chapterId },
-      {
-        subchapters: parsedResponse.subChapters,
-      }
+        order: sc.order ?? index + 1,
+        title: sc.title,
+        learningObjective: sc.learningObjective,
+        aiPrompt: "",
+        userPrompt: "",
+      }))
     );
-
-    return data;
   }
 }

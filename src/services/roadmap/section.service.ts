@@ -13,9 +13,7 @@ export class SectionService {
         desciption: section.description,
       }))
     );
-  }
 
-  static async updateSection() {
-    return "";
+    return createdSections;
   }
 }
