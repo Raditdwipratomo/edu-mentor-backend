@@ -3,7 +3,7 @@ export class PromptService {
   buildRoadmapPrompt(payload: {
     interest: string;
     level: string;
-    description?: string;
+    userPrompt?: string;
   }) {
     return roadmapPrompt(payload);
   }
