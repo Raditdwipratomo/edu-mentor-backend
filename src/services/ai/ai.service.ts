@@ -1,7 +1,7 @@
 import { groq } from "../../config";
 
 export class AIService {
-  static async generate(prompt: string) {
+  async generate(prompt: string) {
     const completion = await groq.chat.completions.create({
       model: "llama-3.1-8b-instant",
       messages: [
@@ -14,7 +14,7 @@ export class AIService {
     return completion.choices[0].message.content;
   }
 
-  static async getAIModelName(): Promise<string> {
+  async getAIModelName(): Promise<string> {
     return "llama";
   }
 }

@@ -1,6 +1,6 @@
 import { roadmapPrompt } from "../../prompts/roadmap";
 export class PromptService {
-  static buildRoadmapPrompt(payload: {
+  buildRoadmapPrompt(payload: {
     interest: string;
     level: string;
     description?: string;
@@ -8,22 +8,22 @@ export class PromptService {
     return roadmapPrompt(payload);
   }
 
-  static regenerateRoadmapPrompt(payload: any) {
+  regenerateRoadmapPrompt(payload: any) {
     return "";
   }
 
-  static buildChapterPrompt(payload: any) {
+  buildChapterPrompt(payload: any) {
     return "";
   }
 
-  static regenerateChapterPrompt(payload: any) {
+  regenerateChapterPrompt(payload: any) {
     return "";
   }
-  static generateSubChapter(payload: any) {
+  generateSubChapter(payload: any) {
     return "";
   }
-  static buildMaterial(payload: any) {
+  buildMaterial(payload: any) {
     return "";
   }
-  static regenerateMaterial(payload: any) {}
+  regenerateMaterial(payload: any) {}
 }

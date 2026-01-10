@@ -5,6 +5,7 @@ import { Section as SectionModel } from "../../models/section.model";
 import { SubchapterService } from "../subchapter/subchapter.service";
 
 export class ChapterService {
+  constructor() {}
   async generateChapter(sectionId: string, payload: any) {
     const section = SectionModel.findById(sectionId);
 
@@ -36,7 +37,7 @@ export class ChapterService {
 
     if (payload.withSubChapters) {
       for (const chapter of createdChapters) {
-        await SubchapterService.generateSubchapters(chapter._id, payload);
+        await SubchapterService(chapter._id, payload);
       }
     }
 

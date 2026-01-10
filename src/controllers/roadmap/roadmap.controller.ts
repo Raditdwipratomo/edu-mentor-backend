@@ -1,7 +1,7 @@
 import { Response, Request, NextFunction } from "express";
 import { RoadmapService } from "../../services/roadmap/roadmap.service";
 import { StatusCodes } from "http-status-codes";
-import { ChapterService } from "../../services/chapter/chapter.service.";
+import { ChapterService } from "../../services/chapter/chapter.service";
 import { success } from "zod";
 import { SubchapterService } from "../../services/subchapter/subchapter.service";
 import { MaterialService } from "../../services/material/material.service";
@@ -55,6 +55,7 @@ export class RoadmapController {
   ): Promise<void> => {
     try {
       const roadmapId = req.params.roadmapId;
+      const userId: string = req.user?.id ?? "";
 
       if (!roadmapId) {
         res.status(StatusCodes.BAD_REQUEST).json({
@@ -64,7 +65,7 @@ export class RoadmapController {
         return;
       }
 
-      const roadmap = this.roadmapService.generateRoadmap(roadmapId);
+      const roadmap = this.roadmapService.generateRoadmap(roadmapId, userId);
 
       res.status(StatusCodes.OK).json({
         success: true,
