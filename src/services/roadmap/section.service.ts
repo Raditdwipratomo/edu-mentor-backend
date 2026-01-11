@@ -4,6 +4,7 @@ import { AIService } from "../ai/ai.service";
 import { PromptService } from "../ai/prompt.service";
 import { SectionNotFoundException } from "../../exceptions/roadmap.exceptions";
 import { SectionPayload } from "../../type/roadmap.type";
+import { Chapter as ChapterModel } from "../../models/chapter.model";
 
 export class SectionService {
   constructor(
@@ -36,9 +37,7 @@ export class SectionService {
   }
 
   async getSectionById(sectionId: string): Promise<any> {
-    const section = await SectionModel.findById(sectionId)
-      .populate("chapters")
-      .lean();
+    const section = await SectionModel.findById(sectionId).lean();
 
     if (!section) {
       throw new SectionNotFoundException(sectionId);
@@ -65,6 +64,8 @@ export class SectionService {
 
     const aiResponse = await this.aiService.generate(prompt);
     const parsedResponse = JSON.parse(aiResponse as string);
+
+    await ChapterModel.insertMany(parsedResponse.chapters);
 
     return parsedResponse.chapters;
   }
@@ -97,4 +98,6 @@ export class SectionService {
       throw new SectionNotFoundException(sectionId);
     }
   }
+
+  async deleteChaptersBySectionId() {}
 }

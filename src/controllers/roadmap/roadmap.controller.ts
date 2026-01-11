@@ -2,17 +2,9 @@ import { Response, Request, NextFunction } from "express";
 import { RoadmapService } from "../../services/roadmap/roadmap.service";
 import { StatusCodes } from "http-status-codes";
 import { ChapterService } from "../../services/chapter/chapter.service";
-import { success } from "zod";
 import { SubchapterService } from "../../services/subchapter/subchapter.service";
 import { MaterialService } from "../../services/material/material.service";
-
-export interface AuthRequest extends Request {
-  user?: {
-    id: string;
-    email: string;
-    role?: string;
-  };
-}
+import { AuthRequest } from "../../type/roadmap.type";
 
 export class RoadmapController {
   constructor(private readonly roadmapService: RoadmapService) {}
@@ -65,12 +57,112 @@ export class RoadmapController {
         return;
       }
 
-      const roadmap = this.roadmapService.generateRoadmap(roadmapId, userId);
+      const roadmap = await this.roadmapService.generateRoadmap(
+        roadmapId,
+        userId
+      );
 
       res.status(StatusCodes.OK).json({
         success: true,
         data: roadmap,
         message: "Roadmap successfully generated",
+      });
+    } catch (error) {
+      next(error);
+      console.error("Error: ", error);
+    }
+  };
+
+  getRoadmapById = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const { roadmapId } = req.params;
+      const userId = req.user?.id as string;
+
+      if (!roadmapId) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Must include roadmapId",
+        });
+      }
+
+      const roadmap = await this.roadmapService.getRoadmapById(
+        roadmapId,
+        userId
+      );
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        data: roadmap,
+        message: "successfully get Roadmap data",
+      });
+    } catch (error) {
+      next(error);
+      console.error("Error: ", error);
+    }
+  };
+
+  getUserRoadmaps = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.user?.id as string;
+      const { page, limit, status } = req.body.options;
+
+      if (!userId) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Must include userId",
+        });
+      }
+
+      const options = { page, limit, status };
+
+      const roadmaps = await this.roadmapService.getUserRoadmaps(
+        userId,
+        options ?? null
+      );
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        data: roadmaps,
+        message: "successfully getting user roadmap's",
+      });
+    } catch (error) {
+      next(error);
+      console.error("Error: ", error);
+    }
+  };
+
+  deleteRoadmap = async (
+    req: AuthRequest,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const userId = req.user?.id as string;
+      const roadmapId = req.params.roadmapId;
+
+      if (!userId || !roadmapId) {
+        res.status(StatusCodes.BAD_REQUEST).json({
+          success: false,
+          message: "Invalid request. Must include userId and roadmapId",
+        });
+      }
+
+      const deletedRoadmap = await this.roadmapService.deleteRoadmap(
+        roadmapId,
+        userId
+      );
+
+      res.status(StatusCodes.OK).json({
+        success: true,
+        message: `Successfully deleted roadmap with id ${roadmapId}`,
       });
     } catch (error) {
       next(error);

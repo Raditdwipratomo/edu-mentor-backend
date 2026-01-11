@@ -182,6 +182,7 @@ export class RoadmapService {
       await this.sectionService.deleteSectionByRoadmapId(roadmapId);
 
       await RoadmapModel.deleteOne({ _id: roadmapId });
+      
     } catch (error) {
       await session.abortTransaction();
     } finally {

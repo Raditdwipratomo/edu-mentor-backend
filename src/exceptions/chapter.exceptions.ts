@@ -5,7 +5,7 @@ export class ChapterNotFoundException extends Error {
   }
 }
 
-export class ChapterGenerateException extends Error {
+export class ChapterGenerationException extends Error {
   constructor(message: string) {
     super(message);
     this.name = "ChapterGenerateException";
